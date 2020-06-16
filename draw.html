@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<!-- Author: Jana Walter
+Matr. - Nr.: 459762 -->
+
+<head>
+<meta charset = "utf-8">
+<meta name = "viewport" content = "width = device-width, initial-scale = 1">
+
+<title> Drawing objects on a map </title>
+
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"/>
+</head>
+
+
+<body style = "background-color: cyan;">
+<h1> Drawing objects on a map </h1>
+
+
+<!-- The fields and buttons for the inputs -->
+<h2> Adress </h2>
+<textarea id = "textForTheGeocodingAPI">Insert here the address you search for</textarea>
+<textarea id = "keyForTheGeocodingAPI">Insert your KEY for the API (LocationIQ) here</textarea>
+<button type = "button" onclick = "getCoordinatesForAdress();"> Find the coordinates of the address </button>
+<p id = "showResponse"></p>
+<p id = "showCoordinates"></p>
+<button type = "button" onclick = "useCoordinatesAsThePoint();"> Use this adress as the startpoint </button>
+
+<h2> Point </h2>
+<textarea id = "myPosition">Here are the coordinates of the Startpoint</textarea>
+<button onclick = "getLocation();"> Take your position </button>
+<p id = "locationSearchFailed"></p>
+
+
+<!-- The map and the leaflet scripts for the map -->
+<div id = "main" style = "overflow: auto;">
+<div id = "mapdiv" style = "width: 600px; height: 400px; float: align;"></div>
+
+<script src = "https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src = "https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+
+
+<!-- The textfield with the output of the drawn object in GeoJSON for the user -->
+<textarea id = "objectText">The coordinates of your drawn object</textarea>
+
+
+<!-- The textfield to store or delete a point in the DB -->
+<h2> Database </h2>
+<p id = "showDBForChanging"></p>
+<button onclick = showFiles("showDBForChanging");> Shows the points in the DB </button>
+<p></p>
+<textarea id = "pointsToDB">One point to be stored or deleted</textarea>
+<p></p>
+<button onclick = "sendFiles();"> Save the point in the DB </button>
+<button onclick = "deleteFiles();"> Delete this point from the DB </button>
+
+
+<!-- The link to the buspage -->
+<p>
+	<a href = "./public/index.html">Back to the buspage</a>
+</p>
+
+
+<!-- Integration of the scripts in the document -->
+<script src = "public/point.js"></script>
+<script src = "public/drawScript.js"></script>
+<script src = "public/mainScript.js"></script>
+<script src = "/jquery/jquery.min.js"></script>
+
+<script> 
+	showDrawingMap ();
+</script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang = "en">
+
+<!-- Author: Jana Walter
+Matr. - Nr.: 459762 -->
+<head>
+<meta charset = "utf-8">
+<title> Points, their distance and the direction </title>
+
+<link rel = "stylesheet" href = "https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+   integrity = "sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+   crossorigin = "" #mapid {height: 180px;}/>
+</head>
+
+<body style = "background-color:cyan;">
+<h1> Points, their distance and the direction </h1>
+
+
+<!-- The link to the drawpage -->
+<p>
+	<a href = "http://localhost:3000/">Back to the drawpage</a>
+</p>
+
+
+<!-- The textarea to choose the startpoint -->
+<h2> Startpoint </h2>
+<p id = "showDBForChosing"></p>
+<button onclick = showFiles("showDBForChosing");> Shows the points in the DB </button>
+<p> </p>
+<textarea id = "myChosenStartpoint">Copy the point you want to use in here </textarea>
+
+
+<!-- The fields and buttons for changing the pointcloud -->
+<h2> Pointcloud </h2>
+<textarea id = "myPointcloudText"></textarea>
+
+
+<!-- The mainbutton to start the app with the overgiven points -->
+<p>
+<button onclick = "insertOutput (myPointcloud); showOnMap();"> Start </button>
+</p>
+
+
+<!-- The input to use the leaflet maps and functions -->
+<script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel = "stylesheet" href = "http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
+<div id = "mapSection" style = "width: 600px; height: 400px"></div>
+<script src = "http://cdn.leafletjs.com/leaflet/v1.5.1/leaflet.js"></script>
+
+
+<!-- The table with the departures and lines ascending sorted by the depature - time -->
+<table id = "tableDepartures" border = "1" style = "width: 60%">
+<thead>
+	<tr>
+		<th> Departure </th>
+		<th> Line </th>
+		<th> Destination </th>
+	</tr>
+</thead>
+<tbody id = "idDeparturesTablebody">
+</tbody>
+</table>
+
+
+<!-- The table for the output of the coordinates, the distances and the directions ascending sorted by the distance -->
+<table id = "tableStations" border = "1" style = "width: 90%">
+<thead>	
+	<tr>
+		<th> Longitude </th>
+		<th> Latitude </th>
+		<th> Busstop </th>
+		<th> Distance in metres </th>
+		<th> Direction </th>
+	</tr>
+</thead>
+<tbody id = "idStationsTablebody">
+</tbody>
+</table>
+
+<!-- Integration of the scripts in the document -->
+<script src = "point.js"></script>
+<script src = "drawScript.js"></script>
+<script src = "mainScript.js"></script>
+<script src = "/jquery/jquery.min.js"></script>
+
+<script>
+	main();
+</script>
+</body></html>
