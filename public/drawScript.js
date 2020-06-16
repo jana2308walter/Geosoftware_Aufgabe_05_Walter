@@ -261,7 +261,8 @@ function sendFiles ()
 	{
         input = JSON.parse (input);
         postRequest (input)
-		alert ("Point inserted");
+		alert ("Point inserted!");
+		showFiles("showDBForChanging");
     }
     catch (e)
 	{
@@ -328,9 +329,11 @@ function getRequest (query)
 
 /**
 * @function delteFiles - Deletes one point from the DB
+* @var id - The id overgiven by the user
+* @var temp - The id for the DB to delete the point
 */
 
-function deleteFiles()
+function deleteFiles ()
 {
     var id = document.getElementById("pointsToDB").value;
     var temp = {_id : id};
@@ -341,7 +344,12 @@ function deleteFiles()
             url: "/item",
             method: "DELETE",
             data: temp,
-            success: function (result) {res(result); showFiles("showDBForChanging");},
+            success: function (result) 
+			{
+				res(result); 
+				alert ("Point deleted!");
+				showFiles("showDBForChanging");
+			},
             error: function (err) {console.log(err);}
         });
     });
