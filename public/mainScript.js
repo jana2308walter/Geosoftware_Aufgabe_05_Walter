@@ -37,7 +37,7 @@ function insertOutput (myPointcloud)
 
 	changePointcloud ();
 	fillTableStations ();
-	fillTableDepartures (300);
+	fillTableDepartures (3000);
 }
 
 
@@ -456,9 +456,17 @@ function getTime (unix)
 /**
 * @function showOnMap - Shows the busstops on the map
 * @var map - Inserts the map with Leaflet
-* @var circle - Shows the busstops on the map
+* @var busLayer - The layer with the busstops
+* @var circle - Saves the busstops for showing them on the map
 * @var swapped - The startpoint with swapped coordinates for the geoJSON of Leaflet
 * @var positionMarker - Shows the startposition on the map
+* @var temp - Array with all coordinates of the pointcloud
+* @var heat - The heatlayer for the heatmap
+* @var busAndHeat - The layer with the busstops and the heatmap
+* @var empty - An empty layer without the busstops and the heat
+* @var emptyLayer - The empty Layer to clear the map
+* @var busAndHeatLayer - The layer with the busstops and the heatmap
+* @var layerControl - The control - item with the layers
 */
 
 function showOnMap ()
@@ -470,6 +478,8 @@ function showOnMap ()
 		attribution: 'Leaflet, OpenStreetMapContributors',
 	}).addTo(map);
 
+	var busLayer = L.featureGroup();
+	
 	for (var i = 0; i < myPointcloud.features.length; i++)
 	{
 		var circle = L.circle ([myPointcloud.features[i].geometry.coordinates[1], myPointcloud.features[i].geometry.coordinates[0]],
@@ -477,13 +487,40 @@ function showOnMap ()
 			color:'cyan',
 			fillColor: 'white',
 			fillOpacity: 0.9,
-			radius: 10
+			radius: 10,
 		});
 		circle.bindPopup ("Busstop: " + myPointcloud.features[i].properties.lbez + ", Direction: " + myPointcloud.features[i].properties.richtung);
-		circle.addTo(map);
+		busLayer.addLayer (circle);
 	}
-
+	
 	var swapped = pointToGeoJSON (JSON.parse ("[" + myStartpoint.geometry.coordinates[0] + "," + myStartpoint.geometry.coordinates[1] + "]"));
 	var positionMarker = L.geoJSON (swapped).addTo(map);
 	positionMarker.bindPopup ("You are here!");
+	
+	var temp = Array (myPointcloud.features.length);
+    for (var i = 0; i < temp.length; i++)
+	{
+		temp [i] = [myPointcloud.features[i].geometry.coordinates[1], myPointcloud.features[i].geometry.coordinates[0]];
+    }
+	var heat = L.heatLayer(temp);
+    var busAndHeat = L.featureGroup();
+    busAndHeat.addLayer (heat);
+    busAndHeat.addLayer (busLayer);
+    var empty = L.featureGroup();
+
+
+	var emptyLayer = 
+	{
+		Clear : empty,
+	};
+	
+    var busAndHeatLayer =
+    {
+        Busstops: busLayer,
+        Heat: heat,
+        BusAndHeat: busAndHeat,
+    };
+
+    var layerControl = L.control.layers(busAndHeatLayer, emptyLayer, {position: "topleft"});
+	layerControl.addTo(map)
 }

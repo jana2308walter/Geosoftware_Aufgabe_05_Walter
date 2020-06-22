@@ -1,0 +1,126 @@
+.navbar 
+{
+	margin-bottom: 0;
+	background-color: #2efef7;
+	z-index: 9999;
+	border: 0;
+	font-size: 12px !important;
+	line-height: 1.42857143 !important;
+	letter-spacing: 2px;
+	border-radius: 0;
+}
+
+.navbar li a, .navbar .navbar-brand 
+{
+	color: #000 !important;
+}	
+
+.navbar-nav li a: hover, .navbar-nav li.active a 
+{
+	color: #2efef7 !important;
+	background-color: #fff !important;
+}
+
+.navbar-default .navbar-toggle 
+{
+	border-color: transparent;
+	color: #fff !important;
+}
+	
+.jumbotron
+{
+	background-color: #2efef7;
+	padding: 100px 25px;
+}
+
+.bg-cyanlight
+{
+	background-color: #CEF6F5;
+}
+	
+.container-fluid
+{
+	padding: 60px 50px;
+	width: 100%;
+}
+	
+.panel 
+{
+	border: 1px solid #2efef7; 
+	border-radius: 0;
+	transition: box-shadow 0.5s;
+}
+
+.panel:hover 
+{
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+}
+
+.panel-footer .btn:hover 
+{
+    border: 1px solid #2efef7;
+    background-color: #fff !important;
+    color: #2efef7;
+}
+
+.panel-heading 
+{
+	color: #000000 !important;
+	background-color: #2efef7 !important;
+	padding: 25px;
+	border-bottom: 1px solid transparent;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+}
+
+.panel-footer 
+{
+	background-color: #fff !important;
+}
+
+.panel-footer .btn 
+{
+    margin: 15px 0;
+    background-color: #2efef7;
+    color: #fff;
+}
+
+th
+{
+    text-align: center;
+    background-color: #2efef7;
+    color: black;
+}
+
+td
+{
+    text-align: center;
+}
+
+tr: nth-child(even)
+{
+    background-color: #f2f2f2;
+}
+
+tr: nth-child(odd)
+{
+    background-color: darkturquoise;
+}
+
+table, th, td 
+{
+    width: auto;
+    padding: 10px;
+    border: 2px solid #2efef7;
+    border-color: solid #2efef7;
+    border-collapse: collapse;
+}
+
+footer .glyphicon 
+{
+    font-size: 20px;
+	margin-bottom: 20px;
+    color: #2efef7;
+}

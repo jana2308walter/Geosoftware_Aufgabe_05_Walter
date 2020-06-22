@@ -5,68 +5,148 @@
 Matr. - Nr.: 459762 -->
 
 <head>
+<title>My Busapp</title>
+
 <meta charset = "utf-8">
 <meta name = "viewport" content = "width = device-width, initial-scale = 1">
 
-<title> Drawing objects on a map </title>
-
 <link rel = "stylesheet" href = "https://unpkg.com/leaflet/dist/leaflet.css"/>
 <link rel = "stylesheet" href = "https://unpkg.com/leaflet-draw/dist/leaflet.draw.css"/>
+<link rel = "stylesheet" href = "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel = "stylesheet" href = "public/style.css">
 </head>
 
+<body id = "myPage" data-spy = "scroll" data-target = ".navbar" data-offset = "60">
+<nav class = "navbar navbar-default navbar-fixed-top">
+	<div class = "container">
+		<div class = "navbar-header">
+			<button type = "button" class = "navbar-toggle" data-toggle = "collapse" data-target = "#myNavbar">
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span> 
+			</button>
+			<a class = "navbar-brand" href = "http://localhost:3000/">My Busapp</a>
+		</div>
+		<div class = "collapse navbar-collapse" id = "myNavbar">
+			<ul class = "nav navbar-nav navbar-right">
+				<li><a href = "http://localhost:3000/">Drawpage</a></li>
+				<li><a href = "./public/index.html">Buspage</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
 
-<body style = "background-color: cyan;">
-<h1> Drawing objects on a map </h1>
+<div class = "jumbotron text-center">
+	<h1>Drawing</h1> 
+	<p>At this page you can choose or draw your own points for a startpoint.</p> 
+</div>
 
+<div class = "container-fluid bg-cyanlight">
+	<div class = "row">
+		<div class = "panel panel-default text-center">
+			<div class = "panel-heading">
+				<h2>Adress</h2>
+				<p>Search with the LocationIQ for an Adress you want</p>
+			</div>
+			<div class = "panel-body">
+				<form class = "form-inline">
+					<div class = "input-group">
+						<input id = "textForTheGeocodingAPI" class = "form-control" size = "50" placeholder = "Adress">
+						<input id = "keyForTheGeocodingAPI" class = "form-control" size = "50" placeholder = "Key for the LocationIQ - API">
+						<div class = "input-group-btn-vertical">
+							<button type = "button" class = "btn btn-info" onclick = "getCoordinatesForAdress();">Find the coordinates of the address</button>	
+							<button type = "button" class = "btn btn-info" onclick = "useCoordinatesAsThePoint();">Use this adress as the startpoint</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class = "panel-footer">
+				<form class = "form-horizontal">
+					<div class = "form-group">
+						<p class = "form-control-static" id = "showResponse"></p>
+						<p class = "form-control-static" id = "showCoordinates"></p>
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class = "panel panel-default text-center">
+			<div class = "panel-heading">
+				<h2>Point</h2>
+				<p>Search for your the location of your browser</p>
+				<p id = "locationSearchFailed"></p>
+			</div>
+			<div class = "panel-body">
+				<form class = "form-inline">
+					<div class = "input-group">
+						<input id = "myPosition" class = "form-control" size = "50" placeholder = "Coordinates of the Startpoint">
+						<div class = "input-group-btn">
+							<button type = "button" class = "btn btn-info" onclick = "getLocation();">Take your position</button>
+						</div>	
+					</div>
+				</form>
+			</div>
+		</div>
+		<div class = "panel panel-default text-center">
+			<div class = "panel-heading">
+				<h2>Map</h2>
+				<p>Draw your own Geoobjects in the map</p>
+			</div>
+			<div class = "panel-body">
+                <div id = "main" style = "overflow: auto;">
+				    <div class = "center-block" id = "mapdiv" style = "width: 600px; height: 400px;"></div>
 
-<!-- The fields and buttons for the inputs -->
-<h2> Adress </h2>
-<textarea id = "textForTheGeocodingAPI">Insert here the address you search for</textarea>
-<textarea id = "keyForTheGeocodingAPI">Insert your KEY for the API (LocationIQ) here</textarea>
-<button type = "button" onclick = "getCoordinatesForAdress();"> Find the coordinates of the address </button>
-<p id = "showResponse"></p>
-<p id = "showCoordinates"></p>
-<button type = "button" onclick = "useCoordinatesAsThePoint();"> Use this adress as the startpoint </button>
+				    <script src = "https://unpkg.com/leaflet/dist/leaflet.js"></script>
+				    <script src = "https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+                </div>
+			</div>
+            <div class = "panel-footer">
+                <div class = "form-group">
+                    <textarea class = "form-control" id = "objectText" cols = "100" placeholder = "The coordinates of the drawn Geoobject"></textarea>
+                </div>	                
+            </div>
+        </div>
+		<div class = "panel panel-default text-center">
+			<div class = "panel-heading">
+				<h2>Database</h2>
+				<p>Change the points in the database</p>
+			</div>
+			<div class = "panel-body">
+				<form class = "form-inline">
+					<div class = "input-group">
+						<input id = "pointsToDB" class = "form-control" size = "50" placeholder = "Point or ID for the DB">
+						<div class = "input-group-btn-vertical">
+							<button type = "button" class = "btn btn-info" onclick = showFiles("showDBForChanging");>Show the points in the DB</button>
+							<button type = "button" class = "btn btn-info" onclick = "sendFiles();">Save the point in the DB</button>
+							<button type = "button" class = "btn btn-info" onclick = "deleteFiles();">Delete this point from the DB</button>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class = "panel-footer">
+				<form class = "form-horizontal">
+					<div class = "form-group">
+						<p id = "showDBForChanging"></p>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
-<h2> Point </h2>
-<textarea id = "myPosition">Here are the coordinates of the Startpoint</textarea>
-<button onclick = "getLocation();"> Take your position </button>
-<p id = "locationSearchFailed"></p>
-
-
-<!-- The map and the leaflet scripts for the map -->
-<div id = "main" style = "overflow: auto;">
-<div id = "mapdiv" style = "width: 600px; height: 400px; float: align;"></div>
-
-<script src = "https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src = "https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-
-
-<!-- The textfield with the output of the drawn object in GeoJSON for the user -->
-<textarea id = "objectText">The coordinates of your drawn object</textarea>
-
-
-<!-- The textfield to store or delete a point in the DB -->
-<h2> Database </h2>
-<p id = "showDBForChanging"></p>
-<button onclick = showFiles("showDBForChanging");> Shows the points in the DB </button>
-<p></p>
-<textarea id = "pointsToDB">One point to be stored or deleted</textarea>
-<p></p>
-<button onclick = "sendFiles();"> Save the point in the DB </button>
-<button onclick = "deleteFiles();"> Delete this point from the DB </button>
-
-
-<!-- The link to the buspage -->
-<p>
-	<a href = "./public/index.html">Back to the buspage</a>
-</p>
-
+<footer class = "container-fluid text-center">
+	<a href = "#myPage" title = "To Top">
+		<span class = "glyphicon glyphicon-chevron-up"></span>
+	</a>
+	<p>Made By Tatjana Walter in 2020</p>
+	<p>Contact: t_walt08@uni-muenster.de<p>
+	<p>This website was made for a project in the course Geosoftware at the WWU Muenster<p>
+</footer>
 
 <!-- Integration of the scripts in the document -->
 <script src = "public/point.js"></script>
 <script src = "public/drawScript.js"></script>
 <script src = "public/mainScript.js"></script>
+<script src = "public/leaflet-heat.js"></script>
 <script src = "/jquery/jquery.min.js"></script>
 
 <script> 
